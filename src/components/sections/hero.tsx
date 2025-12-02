@@ -22,10 +22,10 @@ export default function HeroSection() {
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent animate-shine bg-[length:200%_auto]">.AI</span>
         </h1>
         <p className="mt-4 text-lg md:text-xl text-muted-foreground">
-          AI Engineer &middot; Web Developer &middot; Content Creator
+          Agentic AI Engineer &middot; Web Developer &middot; Content Creator
         </p>
         <p className="mt-4 max-w-2xl mx-auto text-foreground/80">
-          Crafting intelligent solutions and building beautiful, performant web experiences.
+          I design and build agentic, AI-first systems — from voice assistants and legal AI to autonomous coding agents — along with beautiful, production-ready web experiences.
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">

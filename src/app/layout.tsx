@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'Avanish.AI',
-  description: 'AI Engineer, Web Developer, Content Creator',
+  description: 'Agentic & Multimodal AI Engineer · Web Developer · Content Creator',
 };
 
 export default function RootLayout({

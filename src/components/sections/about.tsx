@@ -16,13 +16,13 @@ export default function AboutSection() {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  I'm a passionate AI Engineer and Web Developer with a knack for turning complex problems into elegant, intelligent solutions. My journey in tech is driven by a deep curiosity about the future of artificial intelligence and a love for creating beautiful, user-centric digital experiences.
+                  I'm a passionate AI Engineer and Web Developer with a knack for turning complex problems into elegant, intelligent solutions. My journey in tech is driven by combining AI and full-stack web development to ship real, usable tools.
                 </p>
                 <p>
-                  Whether I'm training a neural network, architecting a scalable backend, or crafting a pixel-perfect UI, I bring a commitment to excellence and a creative spark to every project. I'm also an avid content creator, sharing my knowledge and insights with the tech community.
+                  I specialize in building agentic, multimodal AI systems. My recent work includes AI business operations automation, legal contract analysis, voice-based customer support agents, and a Devin-like autonomous coding agent.
                 </p>
                 <p>
-                  Let's build something amazing together.
+                  Whether I'm architecting an autonomous agent, training a neural network, or crafting a pixel-perfect UI, I bring a commitment to excellence and a creative spark to every project. Let's build something amazing together.
                 </p>
               </div>
             </div>

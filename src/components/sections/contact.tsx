@@ -91,7 +91,9 @@ export default function ContactSection() {
         <Card className="bg-card/50">
           <CardHeader className="text-center">
             <h2 className="font-headline text-3xl md:text-4xl font-bold">Get In Touch</h2>
-            <CardDescription>Have a project in mind or just want to say hello? Drop me a line.</CardDescription>
+            <p className="text-muted-foreground mt-2">
+              Interested in AI automation, custom agents, or full-stack builds? I’d love to hear from you.
+            </p>
           </CardHeader>
           <CardContent>
             <Form {...form}>

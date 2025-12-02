@@ -23,6 +23,30 @@
       "description": "Personal Portfolio Website Project",
       "imageUrl": "https://images.unsplash.com/photo-1542744094-3a31f272c490?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3ZWIlMjBkZXNpZ258ZW58MHx8fHwxNzY0NjY3MjczfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "web design"
+    },
+    {
+      "id": "project_ops_agent",
+      "description": "AI Business Operations Agent",
+      "imageUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxidXNpbmVzcyUyMGRhc2hib2FyZHxlbnwwfHx8fDE3NjQ2MTQ2NTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "business dashboard"
+    },
+    {
+      "id": "project_support_agent",
+      "description": "AI Customer Support Voice Agent",
+      "imageUrl": "https://images.unsplash.com/photo-1715635845783-a184542d95e5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjdXN0b21lciUyMHN1cHBvcnR8ZW58MHx8fHwxNzY0NzAzNzA5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "customer support"
+    },
+    {
+      "id": "project_legal_agent",
+      "description": "AI Legal Document Understanding Agent",
+      "imageUrl": "https://images.unsplash.com/photo-1614605844432-731c32334c49?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bGVnYWwlMjBkb2N1bWVudHxlbnwwfHx8fDE3NjQ2ODM5MTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "legal document"
+    },
+    {
+      "id": "project_devin_agent",
+      "description": "Devin-like Agentic Engineer (Lite)",
+      "imageUrl": "https://images.unsplash.com/photo-1716436330152-a58390897652?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhdXRvbm9tb3VzJTIwYWdlbnR8ZW58MHx8fHwxNzY0NzE2ODQ0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "autonomous agent"
     }
   ]
 }
