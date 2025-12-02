@@ -50,7 +50,7 @@ const webProjectsData = [
     title: 'Cognova – AI Voice Assistant',
     description: 'A web-based AI voice assistant that uses generative AI, speech recognition, and real-time responses to answer questions and perform tasks in the browser.',
     tags: ['GenAI', 'Next.js', 'Firebase', 'MediaRecorder API'],
-    link: '#',
+    link: '/cognova',
     external: false,
   },
   {
@@ -58,7 +58,7 @@ const webProjectsData = [
     title: 'AI Code Assistant',
     description: 'An AI-powered tool that analyzes GitHub repositories and suggests context-aware code snippets to assist developers.',
     tags: ['GenAI', 'Next.js', 'GitHub API', 'Server Actions'],
-    link: '#',
+    link: '/code-assistant',
     external: false,
   },
   {
@@ -66,8 +66,8 @@ const webProjectsData = [
     title: 'Personal Portfolio',
     description: 'This very website, designed and built with Next.js, TypeScript, Tailwind CSS, and Framer Motion to showcase my work as an AI engineer and creator.',
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-    link: '#',
-    external: false,
+    link: 'https://github.com/suryanshsk/personal-portfolio',
+    external: true,
   },
 ];
 
@@ -112,7 +112,7 @@ const ProjectCard = ({ project, isAdvanced }: { project: Project; isAdvanced?: b
       <CardFooter>
         <Button asChild variant="link" className={cn('p-0 text-sm', isAdvanced ? 'text-primary' : 'text-accent')}>
           <Link href={project.link} target={project.external ? '_blank' : '_self'} rel={project.external ? 'noopener noreferrer' : ''}>
-            {project.external ? 'Open Colab Notebook' : 'View Details'}
+            {project.external ? (project.id === 'portfolio' ? 'View Source Code' : 'Open Colab Notebook') : 'View Live Demo'}
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </Button>
