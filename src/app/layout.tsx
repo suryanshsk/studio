@@ -3,6 +3,7 @@ import './globals.css';
 import { Inter, Space_Grotesk, Source_Code_Pro } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
+import CustomCursor from '@/components/ui/custom-cursor';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -39,6 +40,7 @@ export default function RootLayout({
           sourceCodePro.variable
         )}
       >
+        <CustomCursor />
         {children}
         <Toaster />
       </body>
