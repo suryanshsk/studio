@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "profile_picture",
+      "description": "Avanish profile picture",
+      "imageUrl": "https://images.unsplash.com/photo-1583195763986-0231686dcd43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjQ2Njg4OTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man portrait"
+    },
+    {
+      "id": "project_cognova",
+      "description": "Cognova AI Voice Assistant Project",
+      "imageUrl": "https://images.unsplash.com/photo-1762278805116-118893051302?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxhYnN0cmFjdCUyMHdhdmVmb3JtfGVufDB8fHx8MTc2NDcxNDM1NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract waveform"
+    },
+    {
+      "id": "project_code_assistant",
+      "description": "AI Code Assistant Project",
+      "imageUrl": "https://images.unsplash.com/photo-1760548425298-22aa4b60fc16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjb2RlJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzY0Njg4OTE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "code abstract"
+    },
+    {
+      "id": "project_portfolio_site",
+      "description": "Personal Portfolio Website Project",
+      "imageUrl": "https://images.unsplash.com/photo-1542744094-3a31f272c490?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3ZWIlMjBkZXNpZ258ZW58MHx8fHwxNzY0NjY3MjczfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "web design"
+    }
+  ]
 }
