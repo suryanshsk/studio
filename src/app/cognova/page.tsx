@@ -23,50 +23,9 @@ export default function CognovaPage() {
   const audioChunksRef = useRef<Blob[]>([]);
   const { toast } = useToast();
 
-  const handleStartRecording = async () => {
-    if (isRecording) return;
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorderRef.current = new MediaRecorder(stream);
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        audioChunksRef.current.push(event.data);
-      };
-      mediaRecorderRef.current.onstop = handleStopRecording;
-      audioChunksRef.current = [];
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
-    } catch (error) {
-      console.error('Error accessing microphone:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Microphone Error',
-        description: 'Could not access the microphone. Please check your browser permissions.',
-      });
-    }
-  };
-
-  const handleStopRecording = async () => {
-    if (!mediaRecorderRef.current || mediaRecorderRef.current.state !== 'recording') return;
-    
-    mediaRecorderRef.current.stop();
-    // The onstop event handler will now trigger the processing logic.
-  };
-  
-  useEffect(() => {
-    // This effect runs when recording stops.
-    if (!isRecording && audioChunksRef.current.length > 0) {
-      processAudio();
-    }
-  }, [isRecording]);
-  
-  const processAudio = async () => {
-    setIsRecording(false);
+  const processAudio = async (audioBlob: Blob) => {
     setIsProcessing(true);
-    
-    const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-    audioChunksRef.current = [];
-
-    // Optional: Add user message placeholder
+    // Add user message placeholder
     setMessages(prev => [...prev, { role: 'user', text: 'Processing your voice query...' }]);
 
     try {
@@ -81,10 +40,12 @@ export default function CognovaPage() {
           setMessages(prev => {
             const newMessages = [...prev];
             // Replace the last "processing" message with the actual response
-            const lastMessageIndex = newMessages.length > 0 ? newMessages.length - 1 : 0;
-            if(newMessages[lastMessageIndex]?.role === 'user'){
+            const lastMessageIndex = newMessages.length - 1;
+            if(newMessages[lastMessageIndex]?.role === 'user' && newMessages[lastMessageIndex]?.text.startsWith('Processing')){
                  newMessages.pop(); // Remove processing message
             }
+            // In a real app, you might want to show the transcribed text as the user message
+            // newMessages.push({ role: 'user', text: result.transcribedText });
             newMessages.push({ role: 'assistant', text: result.textResponse });
             return newMessages;
           });
@@ -96,7 +57,7 @@ export default function CognovaPage() {
             title: 'AI Error',
             description: 'Failed to process your request. Please try again.',
           });
-           setMessages(prev => prev.slice(0, -1)); // Remove processing message on error
+           setMessages(prev => prev.filter(m => !m.text.startsWith('Processing'))); // Remove processing message on error
         } finally {
           setIsProcessing(false);
         }
@@ -109,10 +70,51 @@ export default function CognovaPage() {
         description: 'Failed to prepare audio for processing.',
       });
       setIsProcessing(false);
-       setMessages(prev => prev.slice(0, -1)); // Remove processing message on error
+       setMessages(prev => prev.filter(m => !m.text.startsWith('Processing'))); // Remove processing message on error
     }
   };
 
+
+  const handleStartRecording = async () => {
+    if (isRecording) return;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorderRef.current = new MediaRecorder(stream);
+      
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+      
+      mediaRecorderRef.current.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        audioChunksRef.current = []; // Clear chunks for the next recording
+        processAudio(audioBlob);
+        
+        // Stop all tracks on the stream to turn off the mic indicator
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      audioChunksRef.current = [];
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Microphone Error',
+        description: 'Could not access the microphone. Please check your browser permissions.',
+      });
+    }
+  };
+
+  const handleStopRecording = () => {
+    if (!mediaRecorderRef.current || mediaRecorderRef.current.state !== 'recording') return;
+    mediaRecorderRef.current.stop();
+    setIsRecording(false);
+  };
+  
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
