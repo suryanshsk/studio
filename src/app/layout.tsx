@@ -1,11 +1,27 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Inter, Space_Grotesk, Source_Code_Pro } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+});
+
+const sourceCodePro = Source_Code_Pro({
+  subsets: ['latin'],
+  variable: '--font-source-code-pro',
+});
+
 export const metadata: Metadata = {
   title: 'Avanish.AI',
-  description: 'Agentic & Multimodal AI Engineer · Web Developer · Content Creator',
+  description: 'Agentic &amp; Multimodal AI Engineer · Full Stack Web Developer · Content Creator',
 };
 
 export default function RootLayout({
@@ -14,18 +30,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Source+Code+Pro:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          'min-h-screen bg-background font-body antialiased'
+          'font-sans',
+          inter.variable,
+          spaceGrotesk.variable,
+          sourceCodePro.variable
         )}
       >
         {children}

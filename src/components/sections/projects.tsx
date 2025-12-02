@@ -1,46 +1,44 @@
-import Image from 'next/image';
+'use client';
+
+import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ArrowRight, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const agenticProjectsData = [
   {
     id: 'ops-agent',
     title: 'AI Business Operations Agent',
-    description: 'An AI agent that reads business documents, analyzes invoices, generates daily ops reports, and drafts client follow-up emails.',
-    image: PlaceHolderImages.find(p => p.id === 'project_ops_agent'),
-    tags: ['Python', 'Gemini / GenAI APIs', 'Pandas', 'pdfplumber', 'Gradio', 'Agentic Workflow'],
+    description: 'Agent workflow that reads invoices and business files, summarizes daily operations, highlights overdue payments, and drafts client follow-up emails automatically.',
+    tags: ['Python', 'Gemini / GenAI', 'Pandas', 'pdfplumber', 'Gradio', 'Agentic Workflow'],
     link: 'https://colab.research.google.com/drive/1QlVivsBq1UcaKmsUFC8hW62CqGs50pW1?usp=sharing',
     external: true,
   },
   {
     id: 'support-agent',
     title: 'AI Customer Support Voice Agent',
-    description: 'A multimodal voice-first support agent that listens, understands, answers, and creates support tickets automatically.',
-    image: PlaceHolderImages.find(p => p.id === 'project_support_agent'),
-    tags: ['Python', 'Gemini / GenAI', 'Gradio', 'STT / TTS', 'FAQ RAG', 'Ticketing Logic'],
+    description: 'Multimodal support agent that listens to voice, reads images/screenshots, matches FAQs, answers queries, and auto-creates prioritized support tickets with TTS responses.',
+    tags: ['Python', 'GenAI', 'Gradio', 'STT/TTS', 'FAQ RAG', 'Ticketing'],
     link: 'https://colab.research.google.com/drive/1k1UfH_8rTT5EcHXFU32hBvzzOsD39Tmu?usp=sharing',
     external: true,
   },
   {
     id: 'legal-agent',
     title: 'AI Legal Document Understanding Agent',
-    description: 'An AI assistant that reviews contracts, highlights risks, suggests revisions, and answers legal-style questions.',
-    image: PlaceHolderImages.find(p => p.id === 'project_legal_agent'),
-    tags: ['Python', 'Gemini / GenAI', 'pdfplumber', 'python-docx', 'Gradio', 'Legal AI', 'Structured JSON'],
+    description: 'Legal AI assistant that analyzes contracts, extracts key clauses, highlights risk, suggests revisions, flags missing protections, and supports interactive Q&A.',
+    tags: ['Python', 'GenAI', 'pdfplumber', 'python-docx', 'Gradio', 'Legal AI'],
     link: 'https://colab.research.google.com/drive/1aHfB5eFww3oHlHOItC1THw44LZNx7FHA?usp=sharing',
     external: true,
   },
   {
     id: 'devin-agent',
     title: 'Devin-like Agentic Engineer (Lite)',
-    description: 'A mini autonomous software engineer that plans, writes, runs, and fixes code, then packages it for deployment.',
-    image: PlaceHolderImages.find(p => p.id === 'project_devin_agent'),
-    tags: ['Python', 'Gemini / GenAI', 'Gradio', 'Agentic Workflow', 'Code Generation', 'Automation'],
+    description: 'Mini autonomous coding agent that plans a project, writes code files, runs tests, auto-fixes simple errors, and packages a deploy-ready bundle for Netlify.',
+    tags: ['Python', 'GenAI', 'Gradio', 'Code Generation', 'Agentic Workflow'],
     link: 'https://colab.research.google.com/drive/13Neo3MqZX5rF221EdZsh8R2kMOn72b7h?usp=sharing',
     external: true,
   },
@@ -49,28 +47,25 @@ const agenticProjectsData = [
 const webProjectsData = [
   {
     id: 'cognova',
-    title: 'Cognova - AI Voice Assistant',
-    description: 'A web-based voice assistant using Next.js and GenAI, supporting real-time transcription and intelligent responses.',
-    image: PlaceHolderImages.find(p => p.id === 'project_cognova'),
+    title: 'Cognova – AI Voice Assistant',
+    description: 'A web-based AI voice assistant that uses generative AI, speech recognition, and real-time responses to answer questions and perform tasks in the browser.',
     tags: ['GenAI', 'Next.js', 'Firebase', 'MediaRecorder API'],
-    link: '#cognova',
+    link: '#',
     external: false,
   },
   {
     id: 'code-assistant',
     title: 'AI Code Assistant',
-    description: 'Connects to GitHub repos to analyze code context and suggest relevant snippets using generative AI.',
-    image: PlaceHolderImages.find(p => p.id === 'project_code_assistant'),
+    description: 'An AI-powered tool that analyzes GitHub repositories and suggests context-aware code snippets to assist developers.',
     tags: ['GenAI', 'Next.js', 'GitHub API', 'Server Actions'],
-    link: '#code-assistant',
+    link: '#',
     external: false,
   },
   {
     id: 'portfolio',
     title: 'Personal Portfolio',
-    description: 'The site you are on right now, built with Next.js, TypeScript, and Tailwind CSS. Deployed on Vercel.',
-    image: PlaceHolderImages.find(p => p.id === 'project_portfolio_site'),
-    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Shadcn/ui'],
+    description: 'This very website, designed and built with Next.js, TypeScript, Tailwind CSS, and Framer Motion to showcase my work as an AI engineer and creator.',
+    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     link: '#',
     external: false,
   },
@@ -80,73 +75,88 @@ type Project = {
   id: string;
   title: string;
   description: string;
-  image: (typeof PlaceHolderImages)[0] | undefined;
   tags: string[];
   link: string;
   external: boolean;
 };
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.95 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } },
+};
 
 const ProjectCard = ({ project, isAdvanced }: { project: Project; isAdvanced?: boolean }) => (
-  <Card className={cn(
-    "group overflow-hidden flex flex-col bg-card/50 transition-all duration-300 hover:shadow-xl",
-    isAdvanced 
-      ? "border-primary/50 hover:border-primary hover:shadow-primary/20"
-      : "hover:border-accent/50 hover:shadow-accent/10"
-  )}>
-    {project.image && (
-      <div className="relative h-48 w-full overflow-hidden">
-        <Image
-          src={project.image.imageUrl}
-          alt={project.image.description}
-          data-ai-hint={project.image.imageHint}
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-        />
-         {isAdvanced && <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent" />}
-      </div>
-    )}
-    <CardHeader>
-      <CardTitle className="font-headline">{project.title}</CardTitle>
-      <CardDescription>{project.description}</CardDescription>
-    </CardHeader>
-    <CardContent className="flex-grow">
-      <div className="flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <Badge key={tag} variant={isAdvanced ? "default" : "secondary"} className="font-normal">{tag}</Badge>
-        ))}
-      </div>
-    </CardContent>
-    <CardFooter>
-      <Button asChild variant="link" className={cn("p-0", isAdvanced ? "text-primary hover:text-primary/80" : "text-accent hover:text-accent/80")}>
-        <Link href={project.link} target={project.external ? "_blank" : "_self"} rel={project.external ? "noopener noreferrer" : ""}>
-          {project.external ? 'View Notebook' : 'View Details'} <ArrowRight className="ml-2 h-4 w-4" />
-        </Link>
-      </Button>
-    </CardFooter>
-  </Card>
+  <motion.div variants={cardVariants} whileHover={{ y: -8, transition: { duration: 0.3 } }}>
+    <Card
+      className={cn(
+        'group flex h-full flex-col overflow-hidden bg-card/50 transition-all duration-300',
+        isAdvanced
+          ? 'premium-card-border shadow-lg shadow-primary/10 hover:shadow-primary/20'
+          : 'border-border/50 hover:border-accent/80 hover:shadow-lg hover:shadow-accent/10'
+      )}
+    >
+      <CardHeader>
+        <CardTitle className="font-headline group-hover:text-primary">{project.title}</CardTitle>
+        {isAdvanced && <Badge className="absolute right-4 top-4 w-fit" variant="default">Advanced · Agentic AI</Badge>}
+        <CardDescription className="pt-2">{project.description}</CardDescription>
+      </CardHeader>
+      <CardContent className="flex-grow">
+        <div className="flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <Badge key={tag} variant={isAdvanced ? 'default' : 'secondary'} className="font-normal">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      </CardContent>
+      <CardFooter>
+        <Button asChild variant="link" className={cn('p-0 text-sm', isAdvanced ? 'text-primary' : 'text-accent')}>
+          <Link href={project.link} target={project.external ? '_blank' : '_self'} rel={project.external ? 'noopener noreferrer' : ''}>
+            {project.external ? 'Open Colab Notebook' : 'View Details'}
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </Button>
+      </CardFooter>
+    </Card>
+  </motion.div>
 );
 
-const SectionSubheading = ({ title, badgeText }: { title: string, badgeText?: string }) => (
-  <div className="flex items-center gap-4 mb-8">
-    <h3 className="font-headline text-2xl md:text-3xl font-bold">{title}</h3>
-    {badgeText && <Badge className="bg-primary text-primary-foreground text-sm">{badgeText}</Badge>}
-  </div>
-)
+const SectionHeading = ({ children }: { children: React.ReactNode }) => (
+  <motion.h3
+    variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+    className="mb-8 font-headline text-2xl font-bold md:text-3xl"
+  >
+    {children}
+  </motion.h3>
+);
 
 export default function ProjectsSection() {
+  const containerVariants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.1 } },
+  };
+
   return (
-    <section id="projects" className="py-16 md:py-24 bg-secondary/30">
+    <motion.section
+      id="projects"
+      className="py-16 md:py-24 bg-background"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      variants={containerVariants}
+    >
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="font-headline text-3xl md:text-4xl font-bold">Featured Projects</h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">A glimpse into my passion for building and creating.</p>
-        </div>
+        <motion.h2
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          className="mb-12 text-center font-headline text-3xl font-bold md:text-4xl"
+        >
+          Featured Projects
+        </motion.h2>
 
         <div className="space-y-16">
           <div>
-            <SectionSubheading title="Agentic AI Systems" badgeText="Advanced" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <SectionHeading>Agentic AI Systems</SectionHeading>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               {agenticProjectsData.map((project) => (
                 <ProjectCard key={project.id} project={project} isAdvanced />
               ))}
@@ -154,16 +164,15 @@ export default function ProjectsSection() {
           </div>
 
           <div>
-             <SectionSubheading title="Web &amp; Product Builds" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <SectionHeading>Web &amp; Product Builds</SectionHeading>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {webProjectsData.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
             </div>
           </div>
         </div>
-
       </div>
-    </section>
+    </motion.section>
   );
 }

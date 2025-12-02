@@ -1,45 +1,74 @@
-import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+'use client';
+
+import { motion } from 'framer-motion';
+import { CheckCircle } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
-export default function AboutSection() {
-  const profileImage = PlaceHolderImages.find(p => p.id === 'profile_picture');
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+const ListItem = ({ children }: { children: React.ReactNode }) => (
+  <motion.li variants={itemVariants} className="flex items-start gap-3">
+    <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-primary" />
+    <span className="text-muted-foreground">{children}</span>
+  </motion.li>
+);
+
+export default function AboutSection() {
   return (
-    <section id="about" className="py-16 md:py-24 bg-secondary/30">
+    <motion.section
+      id="about"
+      className="py-16 md:py-24 bg-background"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={containerVariants}
+    >
       <div className="container mx-auto px-4">
-        <Card className="overflow-hidden border-primary/20 bg-background/50 backdrop-blur-md">
-          <div className="grid md:grid-cols-3 items-center">
-            <div className="md:col-span-2 p-8 md:p-12">
-              <h2 className="font-headline text-3xl md:text-4xl font-bold mb-4">
-                About Me
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  I'm a passionate AI Engineer and Web Developer with a knack for turning complex problems into elegant, intelligent solutions. My journey in tech is driven by combining AI and full-stack web development to ship real, usable tools.
+        <motion.h2 variants={itemVariants} className="text-center font-headline text-3xl md:text-4xl font-bold mb-12">
+          About Me
+        </motion.h2>
+
+        <Card className="overflow-hidden border-border/50 bg-card/50 backdrop-blur-md">
+          <CardContent className="p-8 md:p-12">
+            <div className="grid gap-12 md:grid-cols-2">
+              <motion.div variants={itemVariants} className="space-y-4">
+                <p className="text-foreground/90">
+                  I'm an AI engineer and full-stack web developer passionate about building intelligent, agentic systems and beautiful, user-centric interfaces. My expertise lies at the intersection of generative AI and modern web technologies, where I focus on shipping practical, production-ready applications.
                 </p>
-                <p>
-                  I specialize in building agentic, multimodal AI systems. My recent work includes AI business operations automation, legal contract analysis, voice-based customer support agents, and a Devin-like autonomous coding agent.
+                <p className="text-foreground/90">
+                  As a content creator, I enjoy breaking down complex topics in AI, coding, and career growth for a growing audience on social media, sharing my learnings and projects along the way.
                 </p>
-                <p>
-                  Whether I'm architecting an autonomous agent, training a neural network, or crafting a pixel-perfect UI, I bring a commitment to excellence and a creative spark to every project. Let's build something amazing together.
+                <p className="text-muted-foreground text-sm">
+                  Highlights: AI automation, developer tools, and hackathon projects.
                 </p>
+              </motion.div>
+
+              <div className="space-y-4">
+                <h3 className="font-headline text-xl font-semibold text-primary">What I do</h3>
+                <ul className="space-y-3">
+                  <ListItem>Build agentic AI assistants for voice, legal, support, and coding.</ListItem>
+                  <ListItem>Design and develop full-stack web applications with modern, clean UX.</ListItem>
+                  <ListItem>Create engaging content (shorts, carousels, posts) on AI, development, and productivity.</ListItem>
+                </ul>
               </div>
             </div>
-            {profileImage && (
-              <div className="relative h-64 md:h-full w-full">
-                <Image
-                  src={profileImage.imageUrl}
-                  alt={profileImage.description}
-                  data-ai-hint={profileImage.imageHint}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
-          </div>
+          </CardContent>
         </Card>
       </div>
-    </section>
+    </motion.section>
   );
 }

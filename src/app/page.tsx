@@ -1,27 +1,29 @@
-import Header from '@/components/layout/header';
+import About from '@/components/sections/about';
+import Contact from '@/components/sections/contact';
+import ContentSection from '@/components/sections/content';
+import Hero from '@/components/sections/hero';
+import Projects from '@/components/sections/projects';
+import Skills from '@/components/sections/skills';
+import CustomCursor from '@/components/ui/custom-cursor';
 import Footer from '@/components/layout/footer';
-import HeroSection from '@/components/sections/hero';
-import AboutSection from '@/components/sections/about';
-import SkillsSection from '@/components/sections/skills';
-import ProjectsSection from '@/components/sections/projects';
-import CognovaSection from '@/components/sections/cognova';
-import CodeAssistantSection from '@/components/sections/code-assistant';
-import ContactSection from '@/components/sections/contact';
+import Navbar from '@/components/layout/navbar';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-dvh bg-background">
-      <Header />
-      <main className="flex-1">
-        <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <CognovaSection />
-        <CodeAssistantSection />
-        <ContactSection />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <CustomCursor />
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-1">
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <ContentSection />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }

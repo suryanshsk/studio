@@ -1,104 +1,80 @@
 'use client';
 
-import { useFormState } from 'react-dom';
-import { useForm } from 'react-hook-form';
+import { motion } from 'framer-motion';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { useEffect } from 'react';
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useState } from 'react';
+import { Loader2, Send } from 'lucide-read';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Send, Loader2, CheckCircle } from 'lucide-react';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  email: z.string().email("Invalid email address."),
-  message: z.string().min(10, "Message must be at least 10 characters long."),
+  name: z.string().min(2, 'Name must be at least 2 characters.'),
+  email: z.string().email('Please enter a valid email address.'),
+  message: z.string().min(10, 'Message must be at least 10 characters long.'),
 });
 
-type FormValues = z.infer<typeof contactSchema>;
+type ContactFormValues = z.infer<typeof contactSchema>;
 
-type FormState = {
-  message: string;
-  errors?: {
-    name?: string[];
-    email?: string[];
-    message?: string[];
-  };
-  success: boolean;
-};
-
-async function submitContactForm(prevState: FormState, formData: FormData): Promise<FormState> {
-  const validatedFields = contactSchema.safeParse({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    message: formData.get('message'),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Please correct the errors below.',
-      success: false,
-    };
-  }
-
-  // Simulate sending an email or saving to a database
-  console.log('Form submitted:', validatedFields.data);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
-  return { message: 'Thank you for your message! I will get back to you soon.', success: true };
-}
-
-const initialState: FormState = {
-  message: '',
-  success: false,
-};
-
-export default function ContactSection() {
-  const [state, formAction] = useFormState(submitContactForm, initialState);
+export default function Contact() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  
-  const form = useForm<FormValues>({
+
+  const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      message: '',
-    },
+    defaultValues: { name: '', email: '', message: '' },
   });
 
-  useEffect(() => {
-    if (state.success) {
-      toast({
-        title: "Message Sent!",
-        description: state.message,
-      });
-      form.reset();
-    } else if (state.message && state.errors) {
-       // Error handled inline
-    }
-  }, [state, form, toast]);
+  const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
+    setIsSubmitting(true);
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    console.log('Form data submitted:', data);
+    setIsSubmitting(false);
+    form.reset();
+    toast({
+      title: 'Message Sent!',
+      description: "Thanks for reaching out. I'll get back to you soon.",
+    });
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
 
   return (
-    <section id="contact" className="py-16 md:py-24">
-      <div className="container mx-auto px-4 max-w-2xl">
-        <Card className="bg-card/50">
-          <CardHeader className="text-center">
-            <h2 className="font-headline text-3xl md:text-4xl font-bold">Get In Touch</h2>
-            <p className="text-muted-foreground mt-2">
-              Interested in AI automation, custom agents, or full-stack builds? I’d love to hear from you.
-            </p>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form action={formAction} className="space-y-6">
-                 <FormField
+    <motion.section
+      id="contact"
+      className="py-16 md:py-24"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={containerVariants}
+    >
+      <div className="container mx-auto max-w-2xl px-4">
+        <motion.div variants={itemVariants}>
+          <Card className="bg-card/50">
+            <CardHeader className="text-center">
+              <CardTitle className="font-headline text-3xl md:text-4xl">Let's Collaborate</CardTitle>
+              <CardDescription className="mt-2 text-muted-foreground">
+                Looking to build an AI agent, automate operations, or ship a modern web experience? Let’s talk.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
@@ -107,7 +83,7 @@ export default function ContactSection() {
                         <FormControl>
                           <Input placeholder="Your Name" {...field} />
                         </FormControl>
-                        <FormMessage>{state.errors?.name}</FormMessage>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -118,9 +94,9 @@ export default function ContactSection() {
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="your@email.com" {...field} />
+                          <Input type="email" placeholder="your.email@example.com" {...field} />
                         </FormControl>
-                         <FormMessage>{state.errors?.email}</FormMessage>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -129,28 +105,24 @@ export default function ContactSection() {
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Message</FormLabel>
+                        <FormLabel>Project / Message</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Your message here..." {...field} />
+                          <Textarea placeholder="Tell me about your idea..." {...field} />
                         </FormControl>
-                         <FormMessage>{state.errors?.message}</FormMessage>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
-                  
-                <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                  {form.formState.isSubmitting ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    <Send className="mr-2 h-4 w-4" />
-                  )}
-                  Send Message
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
+                  <Button type="submit" disabled={isSubmitting} className="w-full">
+                    {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
+                    Send Message
+                  </Button>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }
