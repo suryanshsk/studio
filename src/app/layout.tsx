@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Next.js will automatically use the favicon.ico file in the public directory. */}
+        <link rel="icon" href={`/favicon.ico?v=${new Date().getTime()}`} />
       </head>
       <body
         className={cn(
