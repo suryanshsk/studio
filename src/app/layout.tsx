@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        {/* The favicon.ico file in the public directory will be automatically used. */}
       </head>
       <body
         className={cn(
