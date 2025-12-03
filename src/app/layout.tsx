@@ -23,9 +23,6 @@ const sourceCodePro = Source_Code_Pro({
 export const metadata: Metadata = {
   title: 'Avanish.AI',
   description: 'Agentic & Multimodal AI Engineer · Full Stack Web Developer · Content Creator',
-  icons: {
-    icon: '/favicon.ico',
-  },
 };
 
 export default function RootLayout({
@@ -35,6 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body
         className={cn(
           'font-sans',
